@@ -378,7 +378,7 @@ defmodule Plaid.IdentityVerification do
           }
   end
 
-  defmodule ListResponse do
+  defmodule Verifications do
     @moduledoc """
     Plaid Identity Verification List response data structure.
     """
@@ -466,7 +466,7 @@ defmodule Plaid.IdentityVerification do
   }
   ```
   """
-  @spec list(params, config) :: {:ok, Plaid.IdentityVerification.ListResponse.t()} | error
+  @spec list(params, config) :: {:ok, Plaid.IdentityVerification.Verifications.t()} | error
   def list(params, config \\ %{}) do
     c = config[:client] || Plaid
 
@@ -474,7 +474,7 @@ defmodule Plaid.IdentityVerification do
     |> struct(method: :post, endpoint: "identity_verification/list", body: params)
     |> Request.add_metadata(config)
     |> c.send_request(Client.new(config))
-    |> c.handle_response(&map_list_response(&1))
+    |> c.handle_response(&map_verifications(&1))
   end
 
   @doc """
@@ -540,11 +540,11 @@ defmodule Plaid.IdentityVerification do
     )
   end
 
-  defp map_list_response(body) do
+  defp map_verifications(body) do
     Poison.Decode.transform(
       body,
       %{
-        as: %Plaid.IdentityVerification.ListResponse{
+        as: %Plaid.IdentityVerification.Verifications{
           identity_verifications: [
             %Plaid.IdentityVerification{
               template: %Plaid.IdentityVerification.Template{},
