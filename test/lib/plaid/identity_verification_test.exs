@@ -227,7 +227,7 @@ defmodule Plaid.IdentityVerificationTest do
       end)
 
       assert {:ok, ds} = Plaid.IdentityVerification.list(params, config)
-      assert %Plaid.IdentityVerification.ListResponse{} = ds
+      assert %Plaid.IdentityVerification.Verifications{} = ds
       assert length(ds.identity_verifications) == 2
       assert [first | _] = ds.identity_verifications
       assert %Plaid.IdentityVerification{} = first
@@ -257,7 +257,7 @@ defmodule Plaid.IdentityVerificationTest do
         |> Plug.Conn.resp(200, Poison.encode!(body))
       end)
 
-      assert {:ok, %Plaid.IdentityVerification.ListResponse{}} =
+      assert {:ok, %Plaid.IdentityVerification.Verifications{}} =
                Plaid.IdentityVerification.list(params, config)
     end
 
